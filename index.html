@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>星际防线 - Star Defense</title>
+    <link rel="stylesheet" href="css/style.css?v=15">
+</head>
+<body>
+    <div id="game-wrapper">
+        <!-- 开场剧情 -->
+        <div id="intro-scene" class="scene active">
+            <canvas id="intro-canvas"></canvas>
+            <div class="intro-container">
+                <div class="intro-portrait">
+                    <img src="assets/commander2.jpg?v=3" alt="指挥官" />
+                </div>
+                <div class="intro-text" id="intro-text"></div>
+            </div>
+            <div class="intro-skip" id="intro-skip">按 [空格] 跳过</div>
+        </div>
+
+        <!-- 主菜单 -->
+        <div id="menu-scene" class="scene">
+            <canvas id="menu-canvas"></canvas>
+            <div class="menu-content">
+                <h1 class="game-title">
+                    <span class="title-main">星际防线</span>
+                    <span class="title-sub">STAR DEFENSE</span>
+                </h1>
+                <div class="menu-buttons">
+                    <button class="sci-fi-btn" id="btn-start" data-text="开始任务">开始任务</button>
+                    <button class="sci-fi-btn" id="btn-hangar" data-text="战机机库">战机机库</button>
+                    <button class="sci-fi-btn" id="btn-settings" data-text="系统设置">系统设置</button>
+                </div>
+                <div class="menu-footer">
+                    <span class="version">v1.0</span>
+                    <span class="credit">地球联合舰队司令部</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 战机选择 -->
+        <div id="hangar-scene" class="scene">
+            <canvas id="hangar-canvas"></canvas>
+            <div class="hangar-content">
+                <h2 class="scene-title">选择你的战机</h2>
+
+                <div class="hangar-ship-display">
+                    <button class="arrow-btn" id="btn-ship-prev">&#9664;</button>
+                    <div class="hangar-ship-view">
+                        <canvas class="hangar-main-canvas" id="hangar-main-canvas" width="300" height="300"></canvas>
+                        <div class="ship-name-plate" id="hangar-ship-name">暴风战斗机</div>
+                    </div>
+                    <button class="arrow-btn" id="btn-ship-next">&#9654;</button>
+                </div>
+
+                <div class="hangar-stats-panel" id="hangar-stats-panel">
+                    <div class="hstat"><span class="hstat-label">速度</span><div class="hstat-bar"><div class="hstat-fill" id="hstat-speed" style="width:60%"></div></div></div>
+                    <div class="hstat"><span class="hstat-label">火力</span><div class="hstat-bar"><div class="hstat-fill" id="hstat-fire" style="width:70%"></div></div></div>
+                    <div class="hstat"><span class="hstat-label">装甲</span><div class="hstat-bar"><div class="hstat-fill" id="hstat-armor" style="width:60%"></div></div></div>
+                    <p class="hangar-desc" id="hangar-desc">均衡型主力战机，适应各种作战环境</p>
+                </div>
+
+                <div class="hangar-buttons">
+                    <button class="sci-fi-btn" id="btn-hangar-back">返回</button>
+                    <button class="sci-fi-btn primary" id="btn-hangar-confirm">确认选择</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 游戏画面 -->
+        <div id="game-scene" class="scene">
+            <canvas id="game-canvas"></canvas>
+            <div class="hud" id="hud">
+                <div class="hud-top">
+                    <div class="hud-score">
+                        <span class="label">积分</span>
+                        <span class="value" id="hud-score">0</span>
+                    </div>
+                    <div class="hud-level">
+                        <span class="label">关卡</span>
+                        <span class="value" id="hud-level">1</span>
+                    </div>
+                    <div class="hud-credits">
+                        <span class="label"> credits</span>
+                        <span class="value" id="hud-credits">0</span>
+                    </div>
+                </div>
+                <div class="hud-bottom">
+                    <div class="hud-hp">
+                        <span class="label">护盾</span>
+                        <div class="hp-bar"><div id="hud-hp-bar"></div></div>
+                    </div>
+                    <div class="hud-energy">
+                        <span class="label">能量</span>
+                        <div class="energy-bar"><div id="hud-energy-bar"></div></div>
+                    </div>
+                </div>
+            </div>
+            <div class="upgrade-panel" id="upgrade-panel">
+                <h3>升级系统 <span id="upgrade-points" style="color:var(--cyan)">0</span></h3>
+                <div class="upgrade-item" id="upgrade-fire">
+                    <span>火力强化</span>
+                    <span class="cost" id="cost-fire">100</span>
+                    <button class="upgrade-btn">升级</button>
+                </div>
+                <div class="upgrade-item" id="upgrade-speed">
+                    <span>引擎加速</span>
+                    <span class="cost" id="cost-speed">100</span>
+                    <button class="upgrade-btn">升级</button>
+                </div>
+                <div class="upgrade-item" id="upgrade-shield">
+                    <span>护盾充能</span>
+                    <span class="cost" id="cost-shield">100</span>
+                    <button class="upgrade-btn">升级</button>
+                </div>
+                <button class="sci-fi-btn" id="btn-resume" data-text="继续任务">继续任务</button>
+            </div>
+            <div class="message-area" id="message-area"></div>
+        </div>
+
+        <!-- 游戏结束 -->
+        <div id="gameover-scene" class="scene">
+            <canvas id="gameover-canvas"></canvas>
+            <div class="gameover-content">
+                <h2 class="scene-title" id="gameover-title">任务失败</h2>
+                <div class="gameover-stats">
+                    <div class="stat-row">
+                        <span>最终积分</span>
+                        <span id="final-score">0</span>
+                    </div>
+                    <div class="stat-row">
+                        <span>到达关卡</span>
+                        <span id="final-level">1</span>
+                    </div>
+                    <div class="stat-row">
+                        <span>击落敌机</span>
+                        <span id="final-kills">0</span>
+                    </div>
+                </div>
+                <button class="sci-fi-btn" id="btn-retry" data-text="重新部署">重新部署</button>
+                <button class="sci-fi-btn" id="btn-menu" data-text="返回基地">返回基地</button>
+            </div>
+        </div>
+
+        <!-- 关卡过渡 -->
+        <div id="levelup-scene" class="scene">
+            <div class="levelup-content">
+                <h2 class="levelup-title">关卡 <span id="levelup-num">2</span></h2>
+                <p class="levelup-desc" id="levelup-desc">警告：侦测到更强大的敌军信号</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/audio.js?v=15"></script>
+    <script src="js/renderer.js?v=15"></script>
+    <script src="js/entities.js?v=15"></script>
+    <script src="js/game.js?v=15"></script>
+    <div id="debug-error" style="display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(255,0,0,0.9);color:#fff;padding:1rem 2rem;border-radius:8px;z-index:9999;font-family:monospace;font-size:14px;max-width:80vw;word-break:break-all;"></div>
+</body>
+</html>

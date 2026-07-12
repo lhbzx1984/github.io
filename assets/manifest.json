@@ -1,0 +1,12 @@
+{
+  "ship_interceptor": "assets/ship_interceptor.png?v=2",
+  "ship_fighter": "assets/ship_fighter.png?v=2",
+  "ship_bomber": "assets/ship_bomber.png?v=2",
+  "enemy_scout": "assets/enemy_scout.png?v=2",
+  "enemy_fighter": "assets/enemy_fighter.png?v=2",
+  "enemy_cruiser": "assets/enemy_cruiser.png?v=2",
+  "enemy_elite": "assets/enemy_elite.png?v=2",
+  "boss_1": "assets/boss_1.png?v=2",
+  "boss_2": "assets/boss_2.png?v=2",
+  "space_bg": "assets/space_bg.png?v=2"
+}
